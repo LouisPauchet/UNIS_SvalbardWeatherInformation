@@ -161,6 +161,8 @@ def serve_geojson():
 
 
 if __name__ == '__main__':
+    #making sure the sea ice geojson is create before first loading.
+    create_ice_chart_geojson()
     if not os.path.exists('data'):
         os.makedirs('data')
     app.run(debug=True)
