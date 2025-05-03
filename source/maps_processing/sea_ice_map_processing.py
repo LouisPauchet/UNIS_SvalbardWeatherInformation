@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 import requests
 import geopandas as gpd
 from shapely.geometry import box, mapping
+from torpy.http.requests import tor_requests_session
 
 # Add the parent directory to the system path to access the logger module
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
@@ -97,8 +98,8 @@ class SeaIceCache:
         return datetime.now() - file_mod_time <= timedelta(minutes=max_age_minutes)
 
     def create_ice_chart_geojson(self, output_geojson="ice_chart.geojson",
-                                 url="https://cryo.met.no/sites/cryo/files/latest/NIS_arctic_latest_pl_a.zip",
-                                 force=False):
+                                url="https://cryo.met.no/sites/cryo/files/latest/NIS_arctic_latest_pl_a.zip",
+                                force=False):
         """
         Creates a GeoJSON file from the latest sea ice data.
 
@@ -112,7 +113,7 @@ class SeaIceCache:
         """
         if self.serve_only:
             return -1
-        
+
         geojson_path = os.path.join(self.output_dir, output_geojson)
         if not force and self.is_recent_file(geojson_path, max_age_minutes=30):
             self.logger.info(f"GeoJSON file {geojson_path} is recent. Skipping processing.")
@@ -121,16 +122,19 @@ class SeaIceCache:
         with tempfile.TemporaryDirectory() as temp_dir:
             zip_file_path = os.path.join(temp_dir, "NIS_arctic_latest.zip")
             self.logger.info(f"Downloading data from {url}...")
-            response = requests.get(url, stream=True)
 
-            if response.status_code == 200:
-                with open(zip_file_path, "wb") as file:
-                    for chunk in response.iter_content(chunk_size=1024):
-                        file.write(chunk)
-                self.logger.info("Download complete.")
-            else:
-                self.logger.error(f"Failed to download file: {response.status_code}")
-                raise Exception(f"Download failed: {response.status_code}")
+            # Use torpy to create a Tor requests session
+            with tor_requests_session() as session:
+                response = session.get(url, stream=True)
+
+                if response.status_code == 200:
+                    with open(zip_file_path, "wb") as file:
+                        for chunk in response.iter_content(chunk_size=1024):
+                            file.write(chunk)
+                    self.logger.info("Download complete.")
+                else:
+                    self.logger.error(f"Failed to download file: {response.status_code}")
+                    raise Exception(f"Download failed: {response.status_code}")
 
             with zipfile.ZipFile(zip_file_path, "r") as zip_ref:
                 zip_ref.extractall(temp_dir)
