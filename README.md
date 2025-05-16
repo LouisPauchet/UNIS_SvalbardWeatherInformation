@@ -46,7 +46,7 @@ If you want to test the latest developments that are not yet released, you need 
    sed -i 's|lpauchet/swi-server:latest|swi-server|g' docker-compose.yml
    ```
 
-4. If you need to work with the config files, you can add this line in the swi-server container in the Docker compose file
+4. If you need to work with the config files, you can add this line in the Docker compose file, in the swi-server containers under volumes. 
    ```plaintext
    - ./static/config:/app/static/config
    ```
@@ -57,6 +57,7 @@ If you want to test the latest developments that are not yet released, you need 
    SWI_FROST_API_KEY=your_frost_api_key
    SWI_IWIN_FIXED_API_KEY=your_iwin_api_key
    ```
+You can create your own frost API key at [Frost](https://frost.met.no/howto.html).
 
 ### Running the Application
 1. Start the Docker container:
