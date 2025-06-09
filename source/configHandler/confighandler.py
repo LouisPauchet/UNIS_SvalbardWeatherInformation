@@ -140,7 +140,7 @@ class ConfigHandler:
             return self.variable_config
 
         try:
-            with open(self.variables_config_file, 'r') as f:
+            with open(self.variables_config_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)['variables']
             
             for key in data.keys():
