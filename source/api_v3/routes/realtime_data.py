@@ -45,7 +45,7 @@ async def realtime_data(
         if res is not None:
             return res
         else:
-            raise HTTPException(status_code=404, detail=f"Data not found for station {station_id}")
+            raise HTTPException(status_code=404, detail=f"Data not found for station {station_id} and time offset {toffset}")
 
     except HTTPException:
         # Re-raise HTTPException to ensure it is not caught by the general exception handler
