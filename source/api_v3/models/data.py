@@ -15,7 +15,7 @@ class DataEntry(BaseModel):
         extra = 'allow'
 
 class StationDataTimeSerie(StationID):
-    timeserie: list[DataEntry]
+    timeseries: list[DataEntry]
 
 class StationTimeSeriesRequest(BaseModel):
     stations: Union[str, List[str]]

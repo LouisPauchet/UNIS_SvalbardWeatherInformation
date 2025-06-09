@@ -379,7 +379,6 @@ class CacheHandler:
                 self.logger.info(f"Successfully retrieved cached data for station ID {station_id} with shift {shift}")
 
             return cached_data
-
         except json.JSONDecodeError as e:
             self.logger.error(f"Invalid JSON format in cache file for station ID {station_id} with shift {shift}: {e}", exc_info=True)
         except Exception as e:
