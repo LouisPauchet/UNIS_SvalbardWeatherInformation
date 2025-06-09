@@ -3,10 +3,13 @@ from source.logger.logger import Logger
 import difflib
 import os
 
+
 config_files = [
     'static/config/fixed_stations.json',
     'static/config/mobile_stations.json'
 ]
+
+variable_config_file = 'static/config/variables.json'
 
 class StationNotFoundError(Exception):
     """
@@ -31,15 +34,18 @@ class ConfigHandler:
         logger (logging.Logger): Logger instance for logging actions and errors.
     """
 
-    def __init__(self):
+    def __init__(self, variable_config_file=variable_config_file):
         """
         Initialize the ConfigHandler with default configuration files and logger.
         """
         self.config_files = config_files
+        self.variables_config_file = variable_config_file
+        self.variable_config = None
         self._cached_configs = None
         self._cached_credential = None
         self.logger = Logger.setup_logger(self.__class__.__name__)
         self._env_variable_mapping = self._load_env_variable_mapping()
+        self._load_var_config()
 
     def get_variable(self, station_id):
         """
@@ -118,6 +124,33 @@ class ConfigHandler:
             if type == "all" or config.get("type") == type:
                 stations.append(config.get("id"))
         return stations
+
+    def _load_var_config(self):
+        """
+        Loads and caches variable configuration from a JSON file.
+
+        If the configuration is already cached, it returns the cached version.
+        Otherwise, it reads and parses the JSON file, augmenting each entry with an 'id'
+        field corresponding to its key. Handles file and JSON parsing errors.
+
+        Returns:
+            dict: The variable configuration data with each entry containing an 'id' field.
+        """
+        if self.variable_config is not None:
+            return self.variable_config
+
+        try:
+            with open(self.variables_config_file, 'r') as f:
+                data = json.load(f)['variables']
+            
+            for key in data.keys():
+                data[key]['id'] = key
+
+            self.variable_config = data
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            self._handle_error(e)
+
+
 
     def _load_config(self):
         """
