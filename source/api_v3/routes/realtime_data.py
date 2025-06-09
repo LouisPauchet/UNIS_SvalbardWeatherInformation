@@ -1,29 +1,25 @@
 from fastapi import APIRouter, HTTPException
-from ..models.station import StationParameters
+from ..models.data import StationDataTimeSerie, DataEntry
 from ..models.general import StationID, GPSLocation
 
 router = APIRouter()
 
-@router.get("/{station_id}", tags=["realtime"], response_model=StationParameters)
-async def station_parameters(station_id: str) -> StationParameters:
-    # Example: Fetch data based on station_id
-    # Replace this with actual data fetching logic
-    if station_id != "SN99885":
-        raise HTTPException(status_code=404, detail="Station not found")
+@router.get("/{station_id}", tags=["realtime"], response_model=StationDataTimeSerie)
+async def realtime_data(station_id: str) -> StationDataTimeSerie:
+    try:
+        if station_id != "SN99885":
+            raise HTTPException(status_code=404, detail="Station not found")
 
-    return StationParameters(
-        icon="/static/images/lighthouse.png",
-        id="SN99885",
-        location=GPSLocation(lat=78.38166, lon=14.753),
-        name="Bohemanneset",
-        project="IWIN Lighthouse",
-        status="online",
-        type="fixed",
-        variables=[
-            "airTemperature",
-            "seaSurfaceTemperature",
-            "windSpeed",
-            "windDirection",
-            "relativeHumidity"
-        ]
-    )
+        return StationDataTimeSerie(
+            id="SN99885",
+            timeserie=[
+                DataEntry(
+                    airTemperature=-5.4,
+                    timestamp="2025-02-08T17:00:00.000Z",
+                    windDirection=205,
+                    windSpeed=7.1
+                )
+            ]
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal Server Error")    

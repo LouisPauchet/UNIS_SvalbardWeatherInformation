@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException
 from ..models.station import StationParameters
 from ..models.general import StationID, GPSLocation
 
+import re
+
 router = APIRouter()
 
 @router.get("/online", tags=["stations"], response_model=list[StationParameters])
@@ -51,8 +53,9 @@ async def offline_station():
 
 @router.get("/{station_id}", tags=["stations"], response_model=StationParameters)
 async def station_parameters(station_id: str) -> StationParameters:
-    # Example: Fetch data based on station_id
-    # Replace this with actual data fetching logic
+    if not re.match('^[a-zA-Z0-9]+$', station_id):
+        raise HTTPException(status_code=400, detail="Station ID must be alphanumeric")
+    
     if station_id != "SN99885":
         raise HTTPException(status_code=404, detail="Station not found")
 
