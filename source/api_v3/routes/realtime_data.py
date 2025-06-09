@@ -1,7 +1,9 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Depends
 from ..models.data import StationDataTimeSerie, DataEntry
 from ..models.general import StationID, GPSLocation
+from ..main import api_v3_get_cache_handler
 from typing import Optional
+import re
 
 # Initialize an APIRouter instance to define routes for this FastAPI application.
 router = APIRouter()
@@ -10,9 +12,10 @@ router = APIRouter()
 async def realtime_data(
     station_id: str,
     toffset: Optional[int] = Query(
-        None,
+        0,
         description="Optional time offset parameter, can be a positive or negative integer. Negative integer represents past data and positive integer represents forecasted data."
-    )
+    ),
+    cache_handler=Depends(api_v3_get_cache_handler)
 ) -> StationDataTimeSerie:
     """
     Retrieve real-time meteorological data for a specified station.
@@ -31,21 +34,22 @@ async def realtime_data(
     Raises:
         HTTPException: If the station is not found or an internal server error occurs.
     """
-    try:
-        if station_id != "SN99885":
-            raise HTTPException(status_code=404, detail="Station not found")
+    if not re.match(r'^[a-zA-Z0-9]+$', station_id):
+        raise HTTPException(status_code=400, detail="Invalid station ID. It must be alphanumeric.")
 
-        return StationDataTimeSerie(
-            id="SN99885",
-            timeserie=[
-                DataEntry(
-                    airTemperature=-5.4,
-                    timestamp="2025-02-08T17:00:00.000Z",
-                    windDirection=205,
-                    windSpeed=7.1
-                )
-            ]
-        )
+    try:
+        if toffset == 'now':
+            toffset = 0
+
+        res = cache_handler.get_cached_hourly_data(station_id, toffset)
+        if res is not None:
+            return res
+        else:
+            raise HTTPException(status_code=404, detail=f"Data not found for station {station_id}")
+
+    except HTTPException:
+        # Re-raise HTTPException to ensure it is not caught by the general exception handler
+        raise
+
     except Exception as e:
-        # Handle any unexpected errors
         raise HTTPException(status_code=500, detail="Internal Server Error")
