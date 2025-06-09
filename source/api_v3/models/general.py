@@ -1,22 +1,23 @@
 from pydantic import BaseModel, Field, field_validator
 import re
 from enum import Enum
-from typing import Literal
+from typing import Literal, Union
 
 TimeserieOutputFormat = Literal['json', 'csv', 'netcdf4']
 
 
 class GPSLocation(BaseModel):
-    lat: float
-    lon: float
+    lat: Union[float, None]
+    lon: Union[float, None]
 
 class StationStatus(str, Enum):
     offline = "offline"
     online = "online"
+    unknown = "unknown"
 
 class StationType(str, Enum):
     fixed = "fixed"
-    modile = "modile"
+    modile = "mobile"
 
 class StationID(BaseModel):
     id: str = Field(..., pattern='^[a-zA-Z0-9]+$')

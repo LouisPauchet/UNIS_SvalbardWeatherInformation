@@ -1,9 +1,5 @@
 from fastapi import FastAPI
 
-from .routes import station, realtime_data, timeserie_data
-
-
-
 api_v3 = FastAPI(
     title="Svalbard Weather Information API",
     description="API Documentation of the backend of the Svalbard Weather Information Application",
@@ -13,6 +9,16 @@ api_v3 = FastAPI(
     #     {"url": "http://localhost:8000", "description": "Local development server"}
     # ]
 )
+
+from source.cacheHandler.cacheHandler import CacheHandler
+
+cache_handler = CacheHandler(serve_only = True)
+
+def api_v3_get_cache_handler():
+    return cache_handler
+
+
+from .routes import station, realtime_data, timeserie_data
 
 api_v3.include_router(station.router, prefix="/stations", tags=["Weather Stations"])
 api_v3.include_router(realtime_data.router, prefix="/data/realtime", tags=['Meteorological Data'])
