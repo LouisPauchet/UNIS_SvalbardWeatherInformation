@@ -237,9 +237,8 @@ class TestCacheHandler:
         with online_stations_file.open("r", encoding="utf-8") as f:
             data_online = json.load(f)
 
-        assert "online_stations" in data_online
-        assert len(data_online["online_stations"]) == 1
-        assert data_online["online_stations"][0]["id"] == "station1"
+        assert len(data_online) == 1
+        assert data_online[0]["id"] == "station1"
 
         # Test for offline stations
         result_offline = cache_handler.get_cached_online_stations(type="all", status='offline')
@@ -249,9 +248,8 @@ class TestCacheHandler:
         with offline_stations_file.open("r", encoding="utf-8") as f:
             data_offline = json.load(f)
 
-        assert "offline_stations" in data_offline
-        assert len(data_offline["offline_stations"]) == 1
-        assert data_offline["offline_stations"][0]["id"] == "station2"
+        assert len(data_offline) == 1
+        assert data_offline[0]["id"] == "station2"
 
     def test_get_cached_realtime_data(
             self,

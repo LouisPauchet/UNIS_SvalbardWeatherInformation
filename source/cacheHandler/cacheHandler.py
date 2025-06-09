@@ -151,9 +151,6 @@ class CacheHandler:
             None
         """
 
-
-
-
         self.logger.info("Starting to cache realtime data...")
 
         if self.serve_only:
@@ -247,7 +244,7 @@ class CacheHandler:
                 for shift in range(1, hours_ago + 1):
                     shift_time = end_time - timedelta(hours=shift)
                     shift_path = os.path.join(hourly_data_path, f"-{shift}")
-                    os.makedirs(shift_path, exist_ok=True)
+                    #os.makedirs(shift_path, exist_ok=True)
 
                     # Find the corresponding data entry for the shift
                     entry = next((e for e in data['timeseries'] if e['timestamp'].startswith(shift_time.isoformat()[:13])), None)
@@ -300,9 +297,11 @@ class CacheHandler:
                         {key: station[key] for key in ["id", "name", "type", "location", "project", "status", "icon", "variables"] if key in station}
                     )
 
-        result = {
-            f"{status}_stations": result_list,
-        }
+        # result = {
+        #     f"{status}_stations": result_list,
+        # }
+
+        result = result_list
 
         self._write_cache(result, filename)
 
