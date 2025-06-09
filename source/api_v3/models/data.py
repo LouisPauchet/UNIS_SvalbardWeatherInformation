@@ -22,7 +22,7 @@ class StationTimeSeriesRequest(BaseModel):
     start_time: str  # ISO-8601 format
     end_time: str       
     interval: str = '1h'  # Python Resampling Interval
-    variables: List[str] = None
+    variables: List[str] = []
     format: TimeserieOutputFormat = 'json'
 
     @field_validator('stations')
@@ -41,13 +41,14 @@ class StationTimeSeriesRequest(BaseModel):
         try:
             if v.endswith('Z'):
                 v = v[:-1] + '+00:00'
-            datetime.fromisoformat(v)
+            print(v)
+            print(datetime.fromisoformat(v))
         except ValueError:
             raise ValueError('Time must be in ISO-8601 format')
         return v
     
     @field_validator('interval')
-    def validate_iso_format(cls, v):
+    def validate_offset_interval(cls, v):
         try:
             to_offset(v)
         except ValueError:
@@ -61,4 +62,4 @@ class StationTimeSeriesRequest(BaseModel):
         for variable in v:
             if not re.match('^[a-zA-Z0-9]+$', variable):
                 raise ValueError('Each variable must be alphanumeric')
-        return 
+        return v
