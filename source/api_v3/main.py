@@ -8,10 +8,10 @@ api_v3 = FastAPI(
     title="Svalbard Weather Information API",
     description="API Documentation of the backend of the Svalbard Weather Information Application",
     version="3.0.0",
-    servers=[
-        {"url": "https://swi.unis.no/api/v1", "description": "Production server"},
-        {"url": "http://localhost:8000", "description": "Local development server"}
-    ]
+    # servers=[
+    #     {"url": "https://swi.unis.no/api/v1", "description": "Production server"},
+    #     {"url": "http://localhost:8000", "description": "Local development server"}
+    # ]
 )
 
 api_v3.include_router(station.router, prefix="/stations", tags=["stations"])
