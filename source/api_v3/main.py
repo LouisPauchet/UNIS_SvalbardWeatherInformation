@@ -18,11 +18,12 @@ def api_v3_get_cache_handler():
     return cache_handler
 
 
-from .routes import station, realtime_data, timeserie_data
+from .routes import station, realtime_data, timeserie_data, variables
 
 api_v3.include_router(station.router, prefix="/stations", tags=["Weather Stations"])
 api_v3.include_router(realtime_data.router, prefix="/data/realtime", tags=['Meteorological Data'])
 api_v3.include_router(timeserie_data.router, prefix="/data/timeseries", tags=['Meteorological Data'])
+api_v3.include_router(variables.router, prefix="/variables", tags=['Meteorological Variables'])
 
 @api_v3.get('/')
 def root():
