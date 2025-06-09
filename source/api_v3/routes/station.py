@@ -1,13 +1,20 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from ..models.station import StationParameters
 from ..models.general import StationID, GPSLocation
 
+from typing import Optional
 import re
 
 router = APIRouter()
 
 @router.get("/online", tags=["Weather Stations"], response_model=list[StationParameters])
-async def online_stations():
+async def online_stations(
+          type: Optional[str] = Query(
+          'all',
+          description="Optional station type. Should be 'fixe', 'mobile' or 'all'."
+          )
+      ) -> list[StationParameters]:
+    
     return [{
       "icon": "/static/images/lighthouse.png",
       "id": "SN99885",
@@ -30,7 +37,13 @@ async def online_stations():
 
 
 @router.get("/offline", tags=["Weather Stations"], response_model=list[StationParameters])
-async def offline_station():
+async def offline_station(
+      type: Optional[str] = Query(
+          'all',
+          description="Optional station type. Should be 'fixe', 'mobile' or 'all'."
+      )
+      ) -> list[StationParameters]:
+
     return [{
       "icon": "/static/images/lighthouse.png",
       "id": "SN99885",
