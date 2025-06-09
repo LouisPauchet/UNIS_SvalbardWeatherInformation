@@ -4,7 +4,7 @@ from ..models.general import StationID, GPSLocation
 
 router = APIRouter()
 
-@router.post("/", tags=["timeseries"], response_model=StationDataTimeSerie)
+@router.post("/", tags=['Meteorological Data'], response_model=StationDataTimeSerie)
 async def timeseries_data(ts_request: StationTimeSeriesRequest) -> StationDataTimeSerie:
     station_id = ts_request.stations
     try:

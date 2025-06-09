@@ -6,7 +6,7 @@ import re
 
 router = APIRouter()
 
-@router.get("/online", tags=["stations"], response_model=list[StationParameters])
+@router.get("/online", tags=["Weather Stations"], response_model=list[StationParameters])
 async def online_stations():
     return [{
       "icon": "/static/images/lighthouse.png",
@@ -29,7 +29,7 @@ async def online_stations():
     }]
 
 
-@router.get("/offline", tags=["stations"], response_model=list[StationParameters])
+@router.get("/offline", tags=["Weather Stations"], response_model=list[StationParameters])
 async def offline_station():
     return [{
       "icon": "/static/images/lighthouse.png",
@@ -51,7 +51,7 @@ async def offline_station():
       ]
     }]
 
-@router.get("/{station_id}", tags=["stations"], response_model=StationParameters)
+@router.get("/{station_id}", tags=["Weather Stations"], response_model=StationParameters)
 async def station_parameters(station_id: str) -> StationParameters:
     if not re.match('^[a-zA-Z0-9]+$', station_id):
         raise HTTPException(status_code=400, detail="Station ID must be alphanumeric")

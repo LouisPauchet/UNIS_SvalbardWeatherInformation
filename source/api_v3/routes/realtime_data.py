@@ -5,7 +5,7 @@ from typing import Optional
 
 router = APIRouter()
 
-@router.get("/{station_id}", tags=["realtime"], response_model=StationDataTimeSerie)
+@router.get("/{station_id}", tags=['Meteorological Data'], response_model=StationDataTimeSerie)
 async def realtime_data(
         station_id: str,
         toffset: Optional[int] = Query(
