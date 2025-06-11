@@ -56,6 +56,7 @@ nav:
       - Datasource: backend/datasource.md
       - Logger: backend/logger.md
       - Maps Processing: backend/maps_processing.md
+      - API V3: backend/api_v3.md
 
 extra:
   consent:
