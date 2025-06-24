@@ -76,6 +76,60 @@ For detailed deployment instructions, refer to the [Deployment Documentation](ht
 - **Release**: Automated release workflows are configured for seamless deployment.
 - **Build**: Automated build processes are in place to compile the application efficiently.
 
+
+
+## API v3 in Development Mode
+
+### Step 1: Clone the Repository
+Open your terminal and run the following command to clone the repository:
+
+```bash
+git clone https://github.com/LouisPauchet/UNIS_SvalbardWeatherInformation.git
+cd UNIS_SvalbardWeatherInformation
+git checkout 1.1_API_V3
+```
+
+### Step 3: Virtual env and install Requirements
+
+```bash
+python3.13 -m venv venv
+```
+
+Activate the virtual environment:
+
+- On macOS and Linux:
+
+```bash
+source venv/bin/activate
+```
+
+- On Windows:
+
+```bash
+venv\Scripts\Activate.ps1
+```
+
+Install the required packages using pip:
+
+```bash
+pip install -r requirements.txt
+pip install uvicorn
+```
+
+### Step 4: Run the API with Uvicorn
+Start the API in development mode with auto-reload enabled:
+
+```bash
+uvicorn source.api_v3.main:api_v3 --reload
+```
+
+### Step 5: Access the API Documentation
+Once the server is running, you can access the API documentation (Swagger) by navigating to the following URL in your web browser:
+
+[http://127.0.0.1:8000/docs/](http://127.0.0.1:8000/docs/)
+
+
+
 ## Contributing
 We welcome contributions from the community. To contribute:
 1. Fork the repository.
