@@ -48,6 +48,27 @@
             "maxValue": 300,
             "name" : "Snow Thickness",
             "default" : false
-        }
+        },
+            "sea_surface_wave_height": {
+                "unit": "m",
+                "minValue": 0,
+                "maxValue": 300,
+                "name" : "Significant Wave Height",
+                "default" : false
+            },
+            "wave_period_low_moment": {
+                "unit": "s",  
+                "minValue": 0, 
+                "maxValue": 10, 
+                "name": "Low Moment Wave Period",
+                "default": 0.0  
+            },
+            "wave_period_high_moment": {
+                "unit": "s",  
+                "minValue": 0, 
+                "maxValue": 20, 
+                "name": "High Moment Wave Period",
+                "default": 0.0 
+            }
     }
 }

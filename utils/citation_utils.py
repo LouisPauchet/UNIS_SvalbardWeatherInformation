@@ -28,18 +28,28 @@ def format_citation_apa(citation):
         year = strip_braces(citation.get('year', 'n.d.')).replace("CURRENT_YEAR", str(current_year))
         title = strip_braces(citation.get('title', 'Untitled'))
         url = strip_braces(citation.get('url', ''))
+        publisher = strip_braces(citation.get('publisher', ''))
 
         if url:
-            formatted_citation = (
-                f"{author} ({year}). <i>{title}</i>. Retrieved from "
-                f'<a href="{url}" target="_blank">{url}</a>'
-            )
+            if publisher:
+                formatted_citation = (
+                    f"{author} ({year}). <i>{title}</i>. {publisher}. Retrieved from "
+                    f'<a href="{url}" target="_blank">{url}</a>'
+                )
+            else:
+                formatted_citation = (
+                    f"{author} ({year}). <i>{title}</i>. Retrieved from "
+                    f'<a href="{url}" target="_blank">{url}</a>'
+                )
         else:
-            formatted_citation = f"{author} ({year}). <i>{title}</i>."
+            if publisher:
+                formatted_citation = f"{author} ({year}). <i>{title}</i>. {publisher}."
+            else:
+                formatted_citation = f"{author} ({year}). <i>{title}</i>."
 
         return formatted_citation
     except Exception as e:
-        logging.error(f"Error formatting citation: {e}")
+        print(f"Error formatting citation: {e}")
         return "Invalid citation format."
 
 def load_bib_file(filepath):
