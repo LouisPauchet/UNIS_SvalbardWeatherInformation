@@ -1,3 +1,5 @@
+import "../css/opacity_controls.css";
+
 /**
  * @fileoverview This module provides functionality to create and manage opacity sliders for map layers.
  * It allows users to adjust the opacity of individual layers dynamically.
