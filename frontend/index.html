@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leaflet with Vite</title>
     <link
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
+    <link rel="stylesheet" href="/glyphter-font/css/Glyphter.css" />
 
     <style>
       #map {
@@ -27,18 +28,28 @@
         <!-- top aligned tabs -->
         <ul role="tablist">
           <li>
-            <a href="#home" role="tab"><i class="fa fa-bars active"></i></a>
+            <a href="#home" role="tab"><i class="icon-unis-earth"></i></a>
           </li>
           <li>
-            <a href="#autopan" role="tab"><i class="fa fa-arrows"></i></a>
+            <a href="#layers" role="tab"
+              ><i class="fas fa-layer-group active"></i
+            ></a>
+          </li>
+          <li>
+            <a href="#drawings" role="tab"
+              ><i class="fas fa-draw-polygon active"></i
+            ></a>
           </li>
         </ul>
 
         <!-- bottom aligned tabs -->
         <ul role="tablist">
           <li>
-            <a href="https://github.com/nickpeihl/leaflet-sidebar-v2"
-              ><i class="fa fa-github"></i
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/LouisPauchet/UNIS_SvalbardWeatherInformation"
+              ><i class="fab fa-github active"></i
             ></a>
           </li>
         </ul>
@@ -48,101 +59,81 @@
       <div class="leaflet-sidebar-content">
         <div class="leaflet-sidebar-pane" id="home">
           <h1 class="leaflet-sidebar-header">
-            sidebar-v2
+            Svalbard Weather Information
             <span class="leaflet-sidebar-close"
               ><i class="fa fa-caret-left"></i
             ></span>
           </h1>
-
+          <br />
+          <img
+            src="/unis_logos/unis-logo-liggende.svg"
+            alt="UNIS Logo"
+            width="80%"
+            class="center"
+          />
+          <br />
           <p>
-            A responsive sidebar for the mapping library
-            <a href="https://leafletjs.com/">Leaflet</a>.
+            Welcom to the Svalbard Weather Information
+            <strong>SandPiper</strong> version. We work on this version to
+            rebuild the front end (user interface) to have more efficient,
+            easier to maintain and without bugs.
           </p>
-          <p>Compatible with version 0.7 and 1.x (tested up to 1.6.0)</p>
-          <p><b>Select the other panes for a showcase of each feature.</b></p>
 
-          <h2>More examples</h2>
-          <ul>
-            <li><a href="./position-right.html">Right aligned</a></li>
-            <li>
-              <a href="./halfheight.html"
-                >The sidebar adapts to map container size</a
-              >
-            </li>
-            <li>
-              <a href="./leaflet-latest.html"
-                >Proof that it works with the latest leaflet version (if not,
-                please report it!)</a
-              >
-            </li>
-            <li>
-              <a href="./leaflet-0.7.html"
-                >Proof that it works with leaflet 0.7</a
-              >
-            </li>
-          </ul>
+          <h2>What is SWI ?</h2>
+          <p>
+            Svalbard Weather Information (or SWI) is a web app initially to
+            display real time data from the weather station accross the
+            archipelago as well as regrouping the differents map layers from
+            multiple provider as the Norwegian Polar Institute (NP), the
+            Norwegian Water Resources and Energy Directorate (NVE) and the
+            Norwegian Meteorological Institute (Met Norway)
+          </p>
 
-          <p class="lorem">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
+          <h2>Where is it from</h2>
+          <p>
+            SWI was first developped as a fun project base on opensource
+            development. The first demo hosted on a crappy server had quite an
+            intereste as the second month, almost 200 persons have been using
+            the app.
           </p>
-          <p class="lorem">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
+          <p>
+            Now Svalbard Weather Information is a project within the
+            <a href="https://www.unis.no/research/arctic-safety-centre/"
+              >Arctic Safety Center</a
+            >
+            and founded by XXXXXXX
           </p>
-          <p class="lorem">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
-          </p>
-          <p class="lorem">
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
-          </p>
+
+          <img src="" alt="Arctic Safety Center" width="80%" class="center" />
         </div>
 
-        <div class="leaflet-sidebar-pane" id="autopan">
+        <div class="leaflet-sidebar-pane" id="layers">
           <h1 class="leaflet-sidebar-header">
-            autopan
+            Maps Controls
             <span class="leaflet-sidebar-close"
               ><i class="fa fa-caret-left"></i
             ></span>
           </h1>
-          <p>
-            <code>Leaflet.control.sidebar({ autopan: true })</code>
-            makes shure that the map center always stays visible.
-          </p>
-          <p>
-            The autopan behviour is responsive as well. Try opening and closing
-            the sidebar from this pane!
-          </p>
+
+          <h2>Layers</h2>
+          <div id="leaflet_layer_control"></div>
+          <br /><br />
+          <hr />
+          <h2>Opacity</h2>
+          <div id="leaflet_opacity_control"></div>
+          <hr />
+          <h2>Legend</h2>
+        </div>
+
+        <div class="leaflet-sidebar-pane" id="drawings">
+          <h1 class="leaflet-sidebar-header">
+            Drawings and Tracks
+            <span class="leaflet-sidebar-close"
+              ><i class="fa fa-caret-left"></i
+            ></span>
+          </h1>
+
+          <div id="leaflet_layer_control"></div>
         </div>
 
         <div class="leaflet-sidebar-pane" id="messages">

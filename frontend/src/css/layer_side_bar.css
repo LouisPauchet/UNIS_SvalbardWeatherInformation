@@ -1,0 +1,32 @@
+
+/* Leaflet Layers Control */
+
+
+.leaflet-control-layers {
+    border-radius: none;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.leaflet-control-layers-expanded {
+  width: 100% !important;
+  padding: 0px;
+  background-color: transparent;
+  border: none !important;
+}
+
+#layercontrol {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  background-color: transparent;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+#layercontrol .title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
