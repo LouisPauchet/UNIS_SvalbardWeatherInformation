@@ -3,9 +3,13 @@ import "../css/opacity_controls.css";
 export function createSlider(layer, name) {
   const sliderContainer = document.createElement("div");
   sliderContainer.className = "opacity-slider";
+
+  // Get the current opacity of the layer
+  const currentOpacity = layer.getOpacity();
+
   sliderContainer.innerHTML = `
     <label>${name}</label>
-    <input type="range" min="0" max="1" step="0.1" value="1" class="custom-slider">
+    <input type="range" min="0" max="1" step="0.1" value="${currentOpacity}" class="custom-slider">
   `;
 
   // Append the slider to the leaflet_opacity_control div
@@ -14,6 +18,9 @@ export function createSlider(layer, name) {
     .appendChild(sliderContainer);
 
   const slider = sliderContainer.querySelector("input");
+
+  // Focus the slider
+  slider.focus();
 
   slider.addEventListener("input", function () {
     const opacity = parseFloat(this.value);
