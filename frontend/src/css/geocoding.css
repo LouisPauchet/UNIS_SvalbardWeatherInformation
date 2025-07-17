@@ -1,36 +1,43 @@
 .geocoding-search-bar {
   position: relative;
-  width: 300px; /* Adjust the width as needed */
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto 20px; /* Add space above the search bar */
 }
 
 #geocoding-search-input {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  padding: 12px; /* Increase padding for better touch interaction */
+  font-size: 16px; /* Slightly larger font size */
+  box-sizing: border-box;
+  border: 2px solid #ccc; /* Make the border more visible */
+  border-radius: 5px; /* Rounded corners for better aesthetics */
 }
 
 #geocoding-search-bar-suggestions {
   position: absolute;
-  top: 100%; /* Position it directly below the search input */
+  top: 100%;
   left: 0;
   right: 0;
   background: white;
-  border: 1px solid #ccc;
+  border: 2px solid #ccc; /* Make the border more visible */
   border-top: none;
+  border-radius: 0 0 5px 5px; /* Rounded corners for the bottom of the suggestions */
   z-index: 1000;
-  display: none; /* Initially hidden */
+  display: none;
 }
 
 #geocoding-search-bar-suggestions div {
-  padding: 10px;
+  padding: 15px; /* Increase padding for better touch interaction */
+  font-size: 18px; /* Slightly larger font size */
   cursor: pointer;
+  border-bottom: 1px solid #eee; /* Add a subtle border between suggestions */
 }
 
-#geocoding-search-bar-suggestions div:hover {
+#geocoding-search-bar-suggestions div:hover, #geocoding-search-bar-suggestions div.selected {
   background-color: #f0f0f0;
 }
 
-#geocoding-search-bar-suggestions .selected {
-  background-color: #d6d6d6
+#geocoding-search-bar-suggestions div:active {
+  background-color: #d6d6d6; /* Visual feedback for touch interaction */
 }
