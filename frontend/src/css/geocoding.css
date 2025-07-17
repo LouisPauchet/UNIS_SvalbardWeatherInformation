@@ -2,16 +2,16 @@
   position: relative;
   width: 100%;
   max-width: 500px;
-  margin: 20px auto 20px; /* Add space above the search bar */
+  margin: 20px auto 20px;
 }
 
 #geocoding-search-input {
   width: 100%;
-  padding: 12px; /* Increase padding for better touch interaction */
-  font-size: 16px; /* Slightly larger font size */
+  padding: 12px;
+  font-size: 16px;
   box-sizing: border-box;
-  border: 2px solid #ccc; /* Make the border more visible */
-  border-radius: 5px; /* Rounded corners for better aesthetics */
+  border: 2px solid #ccc;
+  border-radius: 5px;
 }
 
 #geocoding-search-bar-suggestions {
@@ -20,18 +20,18 @@
   left: 0;
   right: 0;
   background: white;
-  border: 2px solid #ccc; /* Make the border more visible */
+  border: 2px solid #ccc;
   border-top: none;
-  border-radius: 0 0 5px 5px; /* Rounded corners for the bottom of the suggestions */
+  border-radius: 0 0 5px 5px;
   z-index: 1000;
   display: none;
 }
 
 #geocoding-search-bar-suggestions div {
-  padding: 15px; /* Increase padding for better touch interaction */
-  font-size: 18px; /* Slightly larger font size */
+  padding: 15px;
+  font-size: 18px;
   cursor: pointer;
-  border-bottom: 1px solid #eee; /* Add a subtle border between suggestions */
+  border-bottom: 1px solid #eee;
 }
 
 #geocoding-search-bar-suggestions div:hover, #geocoding-search-bar-suggestions div.selected {
@@ -39,7 +39,7 @@
 }
 
 #geocoding-search-bar-suggestions div:active {
-  background-color: #d6d6d6; /* Visual feedback for touch interaction */
+  background-color: #d6d6d6;
 }
 
 #geocoding-place-information {
@@ -80,15 +80,46 @@
 }
 
 #geocoding-informations-lifespan {
-  color: #2c3e50; /* Dark color for better readability */
+  color: #2c3e50;
   font-style: italic;
   margin: 10px 0;
-  padding-left: 25px; /* Add some space for the pseudo-element icon */
+  padding-left: 25px;
   position: relative;
 }
 
 #geocoding-informations-lifespan::before {
-  content: "📅"; /* Calendar icon */
+  content: "📅";
   position: absolute;
   left: 0;
+}
+
+#geocoding-informations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#geocoding-informations-text {
+  flex: 1;
+}
+
+#geocoding-informations-logo {
+  margin-left: 20px;
+}
+
+#geocoding-informations-logo img {
+  max-width: 100%;
+  height: auto;
+}
+
+#sidebar-h2 {
+  color: #2c3e50;
+  margin: 0;
+}
+
+#geocoding-informations-lifespan {
+  color: #2c3e50;
+  font-style: italic;
+  margin: 5px 0 0;
 }

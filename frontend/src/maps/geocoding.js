@@ -45,8 +45,17 @@ async function displayPlaceInformation(name, id) {
   }
 
   placeInformationDiv.innerHTML = `
-    <h2 id="sidebar-h2">${name}</h2>
-    <p id="geocoding-informations-lifespan">Since ${data.beginLifespanVersion}</p>
+    <div id="geocoding-informations-header">
+      <div id="geocoding-informations-text">
+        <h2 id="sidebar-h2">${name}</h2>
+        <p id="geocoding-informations-lifespan">Since ${data.beginLifespanVersion}</p>
+      </div>
+      <div id="geocoding-informations-logo">
+        <a href="https://www.npolar.no" target="_blank">
+          <img src="/partner_logos/npolar.svg" alt="Norwegian Polar Institute Logo" style="width: 90px; height: auto;">
+        </a>
+      </div>
+    </div>
     <p id="geocoding-informations-definition">${data.definition.en}</p>
     <h3 id="sidebar-h3">Origin (en)</h3>
     <p id="geocoding-informations-origin">${data.origin.en}</p>
