@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Leaflet with Vite</title>
+    <title>SWI - Svalbard Weather Information</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
@@ -39,6 +39,11 @@
             <a href="#drawings" role="tab"
               ><i class="fas fa-draw-polygon active"></i
             ></a>
+          </li>
+          <li>
+            <a href="#search" role="tab">
+              <i class="fas fa-search-location active"></i>
+            </a>
           </li>
         </ul>
 
@@ -79,7 +84,7 @@
             easier to maintain and without bugs.
           </p>
 
-          <h2>What is SWI ?</h2>
+          <h2 id="sidebar-h2">What is SWI ?</h2>
           <p>
             Svalbard Weather Information (or SWI) is a web app initially to
             display real time data from the weather station accross the
@@ -89,7 +94,7 @@
             Norwegian Meteorological Institute (Met Norway)
           </p>
 
-          <h2>Where is it from</h2>
+          <h2 id="sidebar-h2">Where is it from</h2>
           <p>
             SWI was first developped as a fun project base on opensource
             development. The first demo hosted on a crappy server had quite an
@@ -115,14 +120,11 @@
             ></span>
           </h1>
 
-          <h2>Layers</h2>
+          <h2 id="sidebar-h2">Layers</h2>
           <div id="leaflet_layer_control"></div>
-          <br /><br />
-          <hr />
-          <h2>Opacity</h2>
+          <h2 id="sidebar-h2">Opacity</h2>
           <div id="leaflet_opacity_control"></div>
-          <hr />
-          <h2>Legend</h2>
+          <h2 id="sidebar-h2">Legend</h2>
         </div>
 
         <div class="leaflet-sidebar-pane" id="drawings">
@@ -136,12 +138,22 @@
           <div id="leaflet_layer_control"></div>
         </div>
 
-        <div class="leaflet-sidebar-pane" id="messages">
+        <div class="leaflet-sidebar-pane" id="search">
           <h1 class="leaflet-sidebar-header">
-            Messages<span class="leaflet-sidebar-close"
+            Search Location<span class="leaflet-sidebar-close"
               ><i class="fa fa-caret-left"></i
             ></span>
           </h1>
+
+          <div class="geocoding-search-bar">
+            <input
+              id="geocoding-search-input"
+              type="text"
+              placeholder="Search for a place..."
+            />
+            <div id="geocoding-search-bar-suggestions"></div>
+          </div>
+          <div id="geocoding-place-information"></div>
         </div>
       </div>
     </div>
