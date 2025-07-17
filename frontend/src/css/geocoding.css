@@ -30,3 +30,7 @@
 #geocoding-search-bar-suggestions div:hover {
   background-color: #f0f0f0;
 }
+
+#geocoding-search-bar-suggestions .selected {
+  background-color: #d6d6d6
+}
