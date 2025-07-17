@@ -11,6 +11,7 @@ import "leaflet-minimap";
 import "leaflet.control.layers.tree";
 import "leaflet-sidebar-v2";
 import { setupOppacityLayerControl } from "./maps/opacity_control";
+import { initializeGeocodingSearchBar } from "./maps/geocoding";
 
 document.addEventListener("DOMContentLoaded", () => {
   var map = L.map("map", {
@@ -44,6 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .open("home");
 
   setupOppacityLayerControl(map, overlaysLayers);
+  initializeGeocodingSearchBar(
+    "geocoding-search-input",
+    "geocoding-search-bar-suggestions"
+  );
 
   document
     .getElementById("leaflet_layer_control")

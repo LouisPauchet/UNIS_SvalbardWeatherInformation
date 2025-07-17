@@ -1,0 +1,32 @@
+.geocoding-search-bar {
+  position: relative;
+  width: 300px; /* Adjust the width as needed */
+}
+
+#geocoding-search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+#geocoding-search-bar-suggestions {
+  position: absolute;
+  top: 100%; /* Position it directly below the search input */
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  z-index: 1000;
+  display: none; /* Initially hidden */
+}
+
+#geocoding-search-bar-suggestions div {
+  padding: 10px;
+  cursor: pointer;
+}
+
+#geocoding-search-bar-suggestions div:hover {
+  background-color: #f0f0f0;
+}
