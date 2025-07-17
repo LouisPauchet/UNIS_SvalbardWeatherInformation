@@ -1,4 +1,5 @@
 import "../css/geocoding.css";
+import L from "leaflet";
 
 async function fetchPlaceInformation(id) {
   const response = await fetch(
@@ -8,18 +9,27 @@ async function fetchPlaceInformation(id) {
   return data;
 }
 
-async function displayPlaceInformation(name, id) {
+async function displayPlaceInformation(name, id, map) {
   const placeInformationDiv = document.getElementById(
     "geocoding-place-information"
   );
   const data = await fetchPlaceInformation(id);
+  const [longitude, latitude] = data.geometry.coordinates;
+  console.log([longitude, latitude]);
+  console.log(map);
+
+  // Add a marker to the map if coordinates are available
+  if (latitude && longitude) {
+    const marker = L.marker([latitude, longitude]).addTo(map);
+    map.setView([latitude, longitude], map.getZoom()); // Center the map on the marker
+    marker.bindPopup(`<b>${name}</b>`).openPopup();
+  }
 
   let previousNamesHTML = "<p>No previous names found.</p>";
   if (data.replaces && data.replaces.length > 0) {
     const previousNamesData = await Promise.all(
       data.replaces.map((replace) => fetchPlaceInformation(replace["@id"]))
     );
-
     previousNamesHTML = `
       <table id="geocoding-informations-table">
         <thead>
@@ -79,22 +89,20 @@ export async function fetchSuggestions(query) {
 export function displaySuggestions(
   suggestions,
   suggestionsContainer,
-  searchInput
+  searchInput,
+  map
 ) {
   suggestionsContainer.innerHTML = "";
   let selectedSuggestionIndex = -1; // No suggestion selected initially
-
   suggestions.forEach((suggestion, index) => {
     const div = document.createElement("div");
     div.textContent = suggestion.name;
     div.dataset.id = suggestion.id; // Store the ID in a data attribute
-
     div.addEventListener("click", () => {
-      displayPlaceInformation(suggestion.name, suggestion.id);
+      displayPlaceInformation(suggestion.name, suggestion.id, map);
       searchInput.value = "";
       suggestionsContainer.style.display = "none";
     });
-
     suggestionsContainer.appendChild(div);
   });
 
@@ -104,7 +112,6 @@ export function displaySuggestions(
     if (suggestions.length === 0) {
       return;
     }
-
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault();
@@ -124,7 +131,8 @@ export function displaySuggestions(
           const selectedSuggestion = suggestions[selectedSuggestionIndex];
           displayPlaceInformation(
             selectedSuggestion.textContent,
-            selectedSuggestion.dataset.id
+            selectedSuggestion.dataset.id,
+            map
           );
           searchInput.value = "";
           suggestionsContainer.style.display = "none";
@@ -146,7 +154,11 @@ export function displaySuggestions(
   }
 }
 
-export function initializeGeocodingSearchBar(inputId, suggestionsContainerId) {
+export function initializeGeocodingSearchBar(
+  inputId,
+  suggestionsContainerId,
+  map
+) {
   const searchInput = document.getElementById(inputId);
   const suggestionsContainer = document.getElementById(suggestionsContainerId);
 
@@ -154,7 +166,7 @@ export function initializeGeocodingSearchBar(inputId, suggestionsContainerId) {
     const query = searchInput.value.trim();
     if (query.length > 2) {
       const suggestions = await fetchSuggestions(query);
-      displaySuggestions(suggestions, suggestionsContainer, searchInput);
+      displaySuggestions(suggestions, suggestionsContainer, searchInput, map);
     } else {
       suggestionsContainer.style.display = "none";
     }

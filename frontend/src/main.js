@@ -14,8 +14,10 @@ import "leaflet-sidebar-v2";
 import { setupOppacityLayerControl } from "./maps/opacity_control";
 import { initializeGeocodingSearchBar } from "./maps/geocoding";
 
+let map;
+
 document.addEventListener("DOMContentLoaded", () => {
-  var map = L.map("map", {
+  map = L.map("map", {
     center: [78.2, 15.6],
     zoom: 10,
     layers: [base_layer_default],
@@ -46,9 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .open("home");
 
   setupOppacityLayerControl(map, overlaysLayers);
+
   initializeGeocodingSearchBar(
     "geocoding-search-input",
-    "geocoding-search-bar-suggestions"
+    "geocoding-search-bar-suggestions",
+    map
   );
 
   document
