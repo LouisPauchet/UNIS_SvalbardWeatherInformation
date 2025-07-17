@@ -15,31 +15,28 @@ async function displayPlaceInformation(name, id) {
   const data = await fetchPlaceInformation(id);
 
   let previousNamesHTML = "<p>No previous names found.</p>";
-
   if (data.replaces && data.replaces.length > 0) {
     const previousNamesData = await Promise.all(
       data.replaces.map((replace) => fetchPlaceInformation(replace["@id"]))
     );
 
     previousNamesHTML = `
-      <table>
+      <table id="geocoding-informations-table">
         <thead>
           <tr>
             <th>Previous Name</th>
-            <th>Date Replaced</th>
-            <th>Link</th>
+            <th>Used in</th>
           </tr>
         </thead>
         <tbody>
           ${data.replaces
             .map(
               (replace, index) => `
-              <tr>
+              <tr onclick="window.open('https://placenames.npolar.no/${replace["@id"]}', '_blank')" style="cursor:pointer;">
                 <td>${replace.name}</td>
                 <td>${previousNamesData[index].beginLifespanVersion}</td>
-                <td><a href="https://placenames.npolar.no/${replace["@id"]}" target="_blank">View</a></td>
               </tr>
-            `
+              `
             )
             .join("")}
         </tbody>
@@ -48,13 +45,13 @@ async function displayPlaceInformation(name, id) {
   }
 
   placeInformationDiv.innerHTML = `
-    <h2>${name}</h2>
-    <p>Since ${data.beginLifespanVersion}</p>
-    <p>${data.definition.en}</p>
-    <h3>Origin (en)</h3>
-    <p>${data.origin.en}</p>
-    <h3>Previous Names</h3>
-    ${previousNamesHTML}
+    <h2 id="sidebar-h2">${name}</h2>
+    <p id="geocoding-informations-lifespan">Since ${data.beginLifespanVersion}</p>
+    <p id="geocoding-informations-definition">${data.definition.en}</p>
+    <h3 id="sidebar-h3">Origin (en)</h3>
+    <p id="geocoding-informations-origin">${data.origin.en}</p>
+    <h3 id="sidebar-h3">Previous Names</h3>
+    <div id="geocoding-informations-previous-names">${previousNamesHTML}</div>
   `;
 }
 

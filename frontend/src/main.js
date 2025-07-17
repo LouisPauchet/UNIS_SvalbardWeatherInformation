@@ -3,6 +3,7 @@ import "leaflet.control.layers.tree/L.Control.Layers.Tree.css";
 import "leaflet-minimap/dist/Control.MiniMap.min.css";
 import "leaflet-sidebar-v2/css/leaflet-sidebar.min.css";
 import "./css/layer_side_bar.css";
+import "./css/sidebar.css";
 
 import L from "leaflet";
 import { baseMaps, base_layer_default } from "./maps/_base_layers";

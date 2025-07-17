@@ -1,0 +1,11 @@
+#sidebar-h2 {
+  color: #333;
+  border-bottom: 3px solid #007BFF;
+  padding-bottom: 10px;
+  margin: 20px auto 20px;
+}
+
+#sidebar-h3 {
+  color: #444;
+  margin-top: 20px;
+}

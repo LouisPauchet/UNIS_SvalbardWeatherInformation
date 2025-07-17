@@ -41,3 +41,54 @@
 #geocoding-search-bar-suggestions div:active {
   background-color: #d6d6d6; /* Visual feedback for touch interaction */
 }
+
+#geocoding-place-information {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#geocoding-place-information p {
+  color: #000000;
+  line-height: 1.6;
+}
+
+#geocoding-place-information table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#geocoding-place-information th, #geocoding-place-information td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+#geocoding-place-information th {
+  background-color: #0074d9;
+  color: white;
+}
+
+#geocoding-place-information tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#geocoding-place-information tr:hover {
+  background-color: #e9e9e9;
+  cursor: pointer;
+}
+
+#geocoding-informations-lifespan {
+  color: #2c3e50; /* Dark color for better readability */
+  font-style: italic;
+  margin: 10px 0;
+  padding-left: 25px; /* Add some space for the pseudo-element icon */
+  position: relative;
+}
+
+#geocoding-informations-lifespan::before {
+  content: "📅"; /* Calendar icon */
+  position: absolute;
+  left: 0;
+}
