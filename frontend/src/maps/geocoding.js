@@ -32,7 +32,7 @@ async function displayPlaceInformation(name, id, map) {
   // Add a marker to the map if coordinates are available
   if (latitude && longitude) {
     const marker = L.marker([latitude, longitude]).addTo(map);
-    map.setView([latitude, longitude], map.getZoom()); // Center the map on the marker
+    map.setView([latitude, longitude], 10); // Center the map on the marker
     marker.bindPopup(`<b>${name}</b>`).openPopup();
   }
 

@@ -1,5 +1,5 @@
 import L from "leaflet";
-import { tiledMapLayer } from "esri-leaflet";
+import { tiledMapLayer, dynamicMapLayer } from "esri-leaflet";
 
 var minimap_layer = tiledMapLayer({
   url: "https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer",
@@ -23,9 +23,15 @@ var minimap_layer = tiledMapLayer({
 //   }
 // );
 
-var np_toposvalbard = tiledMapLayer({
-  url: "https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer",
-});
+var np_toposvalbard = L.layerGroup([
+  tiledMapLayer({
+    url: "https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Basiskart_Svalbard_WMTS_3857/MapServer",
+  }),
+  tiledMapLayer({
+    url: "https://geodata.npolar.no/arcgis/rest/services/Basisdata/FKB_Svalbard_WMTS_3857/MapServer",
+    minZoom: 14,
+  }),
+]);
 
 // var np_orthophoto = L.tileLayer(
 //   "https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Ortofoto_Svalbard_WMTS_3857/MapServer/WMTS?" +
@@ -75,7 +81,7 @@ var esri_worldimagery = tiledMapLayer({
 var baseMaps = [
   {
     label: "Topo",
-    children: [{ label: "NP Topography", layer: np_toposvalbard }],
+    children: [{ label: "Topo Svalbard", layer: np_toposvalbard }],
   },
   {
     label: "Imagery",

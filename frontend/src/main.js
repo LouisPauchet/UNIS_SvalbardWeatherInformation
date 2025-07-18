@@ -29,10 +29,13 @@ document.addEventListener("DOMContentLoaded", () => {
   var layerControl = L.control.layers
     .tree(baseMaps, overlaysLayers, {
       namedToggle: true,
-      collapseAll: "Collapse all",
-      expandAll: "Expand all",
       collapsed: false,
+      selectorBack: true,
+      openedSymbol: '<i class="fas fa-caret-down"></i>',
+      closedSymbol: '<i class="fas fa-caret-left"></i>',
+      spaceSymbol: "",
     })
+    .collapseTree()
     .addTo(map);
 
   // var miniMap = new L.Control.MiniMap(minimap_layer, {
@@ -54,6 +57,20 @@ document.addEventListener("DOMContentLoaded", () => {
     "geocoding-search-bar-suggestions",
     map
   );
+
+  document
+    .querySelector("div.leaflet-control-layers-base")
+    ?.insertAdjacentHTML(
+      "beforebegin",
+      '<div><h3 id="sidebar-h3">Base Layers</h3></div>'
+    );
+
+  document
+    .querySelector("div.leaflet-control-layers-overlays")
+    ?.insertAdjacentHTML(
+      "beforebegin",
+      '<div><h3 id="sidebar-h3">Overlay Layers</h3></div>'
+    );
 
   document
     .getElementById("leaflet_layer_control")
