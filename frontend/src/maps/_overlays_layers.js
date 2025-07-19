@@ -83,6 +83,7 @@ var np_traffic_regulations = dynamicMapLayer({
 var overlaysLayers = [
   {
     label: "Avalanche",
+    collapsed: true,
     children: [
       // nve_runout_area,
       // nve_steepness_slope,
@@ -98,6 +99,7 @@ var overlaysLayers = [
   },
   {
     label: "Boat Regulation",
+    collapsed: true,
     children: [
       {
         label: "Landing location in tourism activities",
@@ -111,6 +113,7 @@ var overlaysLayers = [
   },
   {
     label: "Snow Scooter Regulation",
+    collapsed: true,
     children: [
       {
         label: "Motor Traffic regulation for residents",
@@ -124,6 +127,7 @@ var overlaysLayers = [
   },
   {
     label: "Regulation",
+    collapsed: true,
     children: [
       {
         label: "Natural Reserves",
