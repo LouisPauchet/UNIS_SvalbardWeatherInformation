@@ -4,6 +4,7 @@ import "leaflet-minimap/dist/Control.MiniMap.min.css";
 import "leaflet-sidebar-v2/css/leaflet-sidebar.min.css";
 import "./css/layer_side_bar.css";
 import "./css/sidebar.css";
+import "./css/legend.css";
 
 import L from "leaflet";
 import { baseMaps, base_layer_default } from "./maps/_base_layers";
@@ -13,6 +14,7 @@ import "leaflet.control.layers.tree";
 import "leaflet-sidebar-v2";
 import { setupOppacityLayerControl } from "./maps/opacity_control";
 import { initializeGeocodingSearchBar } from "./maps/geocoding";
+import { initializeLegend } from "./maps/legend";
 
 let map;
 
@@ -46,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // create the sidebar instance and add it to the map
   var sidebar = L.control
-    .sidebar({ container: "sidebar" })
+    .sidebar({ container: "sidebar", autopan: true })
     .addTo(map)
     .open("home");
 
@@ -57,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "geocoding-search-bar-suggestions",
     map
   );
+  initializeLegend(map);
 
   document
     .querySelector("div.leaflet-control-layers-base")

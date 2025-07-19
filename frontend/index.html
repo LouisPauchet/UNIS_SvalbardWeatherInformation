@@ -70,7 +70,7 @@
             ></span>
           </h1>
 
-          <div>
+          <div id="leaflet-sidebar-inner-content">
             <br />
             <img
               src="/unis_logos/unis-logo-liggende.svg"
@@ -145,12 +145,14 @@
               ><i class="fa fa-caret-left"></i
             ></span>
           </h1>
-
-          <h2 id="sidebar-h2">Layers</h2>
-          <div id="leaflet_layer_control"></div>
-          <h2 id="sidebar-h2">Opacity</h2>
-          <div id="leaflet_opacity_control"></div>
-          <h2 id="sidebar-h2">Legend</h2>
+          <div id="leaflet-sidebar-inner-content">
+            <h2 id="sidebar-h2">Layers</h2>
+            <div id="leaflet_layer_control"></div>
+            <h2 id="sidebar-h2">Opacity</h2>
+            <div id="leaflet_opacity_control"></div>
+            <h2 id="sidebar-h2">Legend</h2>
+            <div id="map-legend-container"></div>
+          </div>
         </div>
 
         <div class="leaflet-sidebar-pane" id="drawings">
@@ -161,7 +163,9 @@
             ></span>
           </h1>
 
-          <div id="leaflet_layer_control"></div>
+          <div id="leaflet-sidebar-inner-content">
+            <div id="leaflet_layer_control"></div>
+          </div>
         </div>
 
         <div class="leaflet-sidebar-pane" id="search">
@@ -170,16 +174,17 @@
               ><i class="fa fa-caret-left"></i
             ></span>
           </h1>
-
-          <div class="geocoding-search-bar">
-            <input
-              id="geocoding-search-input"
-              type="text"
-              placeholder="Search for a place..."
-            />
-            <div id="geocoding-search-bar-suggestions"></div>
+          <div id="leaflet-sidebar-inner-content">
+            <div class="geocoding-search-bar">
+              <input
+                id="geocoding-search-input"
+                type="text"
+                placeholder="Search for a place..."
+              />
+              <div id="geocoding-search-bar-suggestions"></div>
+            </div>
+            <div id="geocoding-place-information"></div>
           </div>
-          <div id="geocoding-place-information"></div>
         </div>
       </div>
     </div>

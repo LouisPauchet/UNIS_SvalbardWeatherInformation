@@ -4,7 +4,11 @@
     font-size: 14px;
     padding: 10px;
     margin: 5px;
-    overflow: visible;
+    height: auto;
+}
+
+.leaflet-control-layers-list.leaflet-control-layers-scrollbar {
+    height: auto !important;
 }
 
 /* Leaflet Layers Control Expanded */

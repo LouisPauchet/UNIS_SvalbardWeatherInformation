@@ -25,12 +25,14 @@ var nve_runout_area = dynamicMapLayer({
   url: "https://gis3.nve.no/arcgis/rest/services/wmts/Bratthet_med_utlop_2024/MapServer",
   layers: [7, 8, 9],
   label: "Run-out Area",
+  isOverlayLegend: true,
 });
 
 var nve_steepness_slope = dynamicMapLayer({
   url: "https://gis3.nve.no/arcgis/rest/services/wmts/Bratthet_med_utlop_2024/MapServer",
   layers: [6],
   label: "Slope Steepness",
+  isOverlayLegend: true,
 });
 
 //Boat Regulation Layer
@@ -38,12 +40,14 @@ var miljo_landing_location = dynamicMapLayer({
   url: "https://kart2.miljodirektoratet.no/arcgis/rest/services/svalbard/ilandstigningslokaliteter_svalbard/MapServer",
   layers: [0, 1, 2, 3],
   label: "Landing location in tourism activities",
+  isOverlayLegend: true,
 });
 
 var miljo_speed_bird_cliffs = dynamicMapLayer({
   url: "https://kart2.miljodirektoratet.no/arcgis/rest/services/svalbard/motorferdsel_svalbard/MapServer",
   layers: [0],
   label: "Speed restriction in from of birds cliffs",
+  isOverlayLegend: true,
 });
 
 //Snowscooter traffic Regulation Layers
@@ -51,12 +55,14 @@ var miljo_snoscooter_resident = dynamicMapLayer({
   url: "https://kart2.miljodirektoratet.no/arcgis/rest/services/svalbard/motorferdsel_svalbard/MapServer",
   layers: [1, 3],
   label: "Motor Traffic regulation for residents",
+  isOverlayLegend: true,
 });
 
 var miljo_snoscooter_tourists = dynamicMapLayer({
   url: "https://kart2.miljodirektoratet.no/arcgis/rest/services/svalbard/motorferdsel_svalbard/MapServer",
   layers: [2, 4],
   label: "Motor Traffic regulation for travelers / tourism",
+  isOverlayLegend: true,
 });
 
 //Regulations
@@ -64,12 +70,14 @@ var np_natural_reserve = dynamicMapLayer({
   url: "https://geodata.npolar.no/arcgis/rest/services/Temadata/N_Nature_Reserves_Svalbard/MapServer",
   layers: [0, 1, 3],
   label: "Natural Reserves",
+  isOverlayLegend: true,
 });
 
 var np_traffic_regulations = dynamicMapLayer({
   url: "https://geodata.npolar.no/arcgis/rest/services/Temadata/Transportation_Svalbard/MapServer",
   layers: [4],
   label: "Traffic regulations",
+  isOverlayLegend: true,
 });
 
 var overlaysLayers = [

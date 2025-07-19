@@ -9,4 +9,12 @@
 #sidebar-h3 {
   color: #444;
   margin-top: 20px;
+    font-size: 16px;
 }
+
+#sidebar-h4 {
+  color: #444;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
