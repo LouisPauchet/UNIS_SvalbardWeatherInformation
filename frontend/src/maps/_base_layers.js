@@ -55,6 +55,38 @@ var np_orthophoto = tiledMapLayer({
   url: "https://geodata.npolar.no/arcgis/rest/services/Basisdata/NP_Ortofoto_Svalbard_WMTS_3857/MapServer",
 });
 
+// var kartverket_sea_chart = L.tileLayer(
+//   "https://cache.kartverket.no/v1/wmts?" +
+//     "SERVICE=WMTS" +
+//     "&VERSION=1.0.0" +
+//     "&REQUEST=GetTile" +
+//     "&LAYER=sjokartraster" +
+//     "&STYLE=default" +
+//     "&FORMAT=image/png" +
+//     "&TILEMATRIXSET=utm33n" +
+//     "&TILEMATRIX={z}" +
+//     "&TILEROW={y}" +
+//     "&TILECOL={x}",
+//   {
+//     minZoom: 0,
+//     maxZoom: 17,
+//     attribution: "Kartverket - Not For Navigation",
+//     tileSize: 256,
+//   }
+// );
+
+var kartverket_sea_chart = L.tileLayer.wms(
+  "https://wms.geonorge.no/skwms1/wms.sjokartraster2",
+  {
+    layers: "all",
+    format: "image/png",
+    transparent: true,
+    version: "1.3.0",
+    crs: L.CRS.EPSG3857,
+    attribution:
+      'Sjøkartraster by Kartverket <br> <span style="color: red;">Not For Navigation</span>',
+  }
+);
 // var esri_worldimagery = L.tileLayer(
 //   "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/WMTS?" +
 //     "&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0" +
@@ -81,7 +113,10 @@ var esri_worldimagery = tiledMapLayer({
 var baseMaps = [
   {
     label: "Topographie",
-    children: [{ label: "Topo Svalbard", layer: np_toposvalbard }],
+    children: [
+      { label: "Topo Svalbard", layer: np_toposvalbard },
+      { label: "Nautical Chart", layer: kartverket_sea_chart },
+    ],
   },
   {
     label: "Imagery",
