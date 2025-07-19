@@ -30,9 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .tree(baseMaps, overlaysLayers, {
       namedToggle: true,
       collapsed: false,
-      selectorBack: true,
+      // selectorBack: true,
       openedSymbol: '<i class="fas fa-caret-down"></i>',
-      closedSymbol: '<i class="fas fa-caret-left"></i>',
+      closedSymbol: '<i class="fas fa-caret-right"></i>',
       spaceSymbol: "",
     })
     .collapseTree()

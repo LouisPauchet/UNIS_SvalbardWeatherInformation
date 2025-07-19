@@ -80,7 +80,7 @@ var esri_worldimagery = tiledMapLayer({
 
 var baseMaps = [
   {
-    label: "Topo",
+    label: "Topographie",
     children: [{ label: "Topo Svalbard", layer: np_toposvalbard }],
   },
   {
