@@ -1,15 +1,25 @@
-// Function to initialize the legend
-export function initializeLegend(map) {
-  // Ensure the legend container exists
-  var legendContainer = document.getElementById("map-legend-container");
-  if (!legendContainer) {
-    console.error("Legend container not found");
-    return;
-  }
+export function initializeLegend(map, sidebar) {
+  // Create a panel for the legend in the sidebar
+  const legendPanelContent = {
+    id: "map-legend-panel",
+    tab: '<i class="fa fa-list"></i>',
+    pane: '<div id="map-legend-content"></div>',
+    title: "Legend",
+    position: "top",
+  };
+
+  // Add the panel to the sidebar
+  sidebar.addPanel(legendPanelContent);
 
   // Function to update the legend based on active overlays
   async function updateLegend() {
-    legendContainer.innerHTML = ""; // Clear current legends
+    const legendContent = document.getElementById("map-legend-content");
+    if (!legendContent) {
+      console.error("Legend content not found");
+      return;
+    }
+
+    legendContent.innerHTML = ""; // Clear current legends
 
     // Array to hold promises for each layer's legend
     let legendPromises = [];
@@ -26,12 +36,19 @@ export function initializeLegend(map) {
     // Wait for all promises to resolve
     const legends = await Promise.all(legendPromises);
 
-    // Append each resolved legend HTML to the container
+    // Append each resolved legend HTML to the content
     legends.forEach((legendHtml) => {
       if (legendHtml) {
-        legendContainer.innerHTML += legendHtml;
+        legendContent.innerHTML += legendHtml;
       }
     });
+
+    // Show or hide the panel based on whether there is legend content
+    if (legends.some((legendHtml) => legendHtml)) {
+      sidebar.enablePanel("map-legend-panel");
+    } else {
+      sidebar.disablePanel("map-legend-panel");
+    }
   }
 
   // Listen for when a layer is added or removed

@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "geocoding-search-bar-suggestions",
     map
   );
-  initializeLegend(map);
+  initializeLegend(map, sidebar);
 
   document
     .querySelector("div.leaflet-control-layers-base")
