@@ -70,12 +70,17 @@ async function getLayerLegend(layer) {
 
   // Return the legend HTML with the layer's name
   // Ensure ESRIformatLegend is an async function or returns a Promise
-  var html = await ESRIformatLegend(
-    layer.options.url,
-    layerName,
-    layer.options.layers
-  );
-  console.log(html);
+  var html = "";
+  if (layer.options.LegendContent == "esri") {
+    html = await ESRIformatLegend(
+      layer.options.url,
+      layerName,
+      layer.options.layers
+    );
+  } else {
+    html = layer.options.LegendContent;
+  }
+
   return html;
 }
 

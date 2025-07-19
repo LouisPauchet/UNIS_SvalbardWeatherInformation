@@ -30,6 +30,8 @@ var np_toposvalbard = L.layerGroup([
   tiledMapLayer({
     url: "https://geodata.npolar.no/arcgis/rest/services/Basisdata/FKB_Svalbard_WMTS_3857/MapServer",
     minZoom: 14,
+    attribution:
+      "Longyearbyen lokalstyre, Norsk Polarinstitutt, Store Norske, Sysselmannen og Telenor",
   }),
 ]);
 
