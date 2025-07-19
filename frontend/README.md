@@ -1,6 +1,6 @@
 # Svalbard Weather Information Front End
 
-This is the new front end for SWI for the SandPiper build. To run it, you need to have NPM installed and then follow these steps:
+This is the new front end for SWI for the SandPiper build. To run it, you need to have [Node.js](https://nodejs.org/en) and [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) installed and then follow these steps:
 
 ```bash
 git clone https://github.com/LouisPauchet/UNIS_SvalbardWeatherInformation.git
