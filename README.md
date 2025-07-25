@@ -13,6 +13,10 @@ The Svalbard Weather Information (SWI) project is a web application designed to 
 - **GPX Import/Export**: Easily import and export GPX files for route planning and sharing.
 - **Drawing Tools**: Annotate and draw on maps to customize your trip planning.
 
+## Repository Organization
+
+The repository is structured with branches that correspond to various issues, as well as dedicated branches for each major version, which are clearly labeled. The `master` branch contains the most recent updates and changes. Currently, `1.0_polarfox` is the released version, while `1.1_sandpiper` is designated as the upcoming version.
+
 ## Getting Started
 
 ### Prerequisites
