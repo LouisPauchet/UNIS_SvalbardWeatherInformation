@@ -44,7 +44,6 @@ class ConfigHandler:
         self._cached_configs = None
         self._cached_credential = None
         self.logger = Logger.setup_logger(self.__class__.__name__)
-        self._env_variable_mapping = self._load_env_variable_mapping()
         self._load_var_config()
 
     def get_variable(self, station_id):
@@ -195,81 +194,39 @@ class ConfigHandler:
         self._cached_configs = configs
         return configs
     
-
-    def _load_env_variable_mapping(self):
-        env_config_file = 'private/example_api.json'
-        try:
-            with open(env_config_file, 'r') as f:
-                data = json.load(f)
-                return {item["datasource"]: item["api_key"] for item in data}
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            logger = Logger.setup_logger("ConfigHandler")
-            logger.error(f"Error loading environment variable mapping: {e}")
-            return {}
+    
 
     def get_api_credential(self, datasource: str) -> str | None:
-        """
-        Retrieve API credentials for a given datasource.
-
-        Args:
-            datasource (str): The name of the datasource to retrieve credentials for.
-
-        Returns:
-            str or None: The API key if found, otherwise None.
-        """
-        logger = Logger.setup_logger("ConfigHandler")
-        config_file = 'private/api.json'
-
-        # Check environment variables first
-        if datasource in self._env_variable_mapping:
-            env_var_name = self._env_variable_mapping[datasource]
-            api_key = os.getenv(env_var_name)
-            if api_key:
-                logger.info(f"API key retrieved from environment variable for datasource: {datasource}")
-                return api_key
-            else:
-                logger.info(f"No API key found in environment variable for datasource: {datasource}")
-
-        # Return cached credentials if available
-        if self._cached_credential is not None:
-            api_key = self._cached_credential.get(datasource)
-            if api_key:
-                logger.info(f"Using cached API key for datasource: {datasource}")
-            else:
-                logger.info(f"No API key required for datasource: {datasource} (cached).")
-            return api_key
-
-        # Load and parse the configuration file
-        try:
-            with open(config_file, 'r') as f:
-                data = json.load(f)
-                configs = data if isinstance(data, list) else [data]
-        except FileNotFoundError:
-            logger.error(f"API credential file '{config_file}' not found.")
-            return None
-        except json.JSONDecodeError:
-            logger.error(f"Error decoding JSON in '{config_file}'.")
-            return None
-        except IOError as e:
-            logger.error(f"Error reading file '{config_file}': {e}")
-            return None
-
-        # Store loaded configs in cache
-        self._cached_configs = configs
-
-        # Extract credentials and cache them
-        self._cached_credential = {
-            item["datasource"]: item.get("api_key")
-            for item in configs if "datasource" in item
+        mapping = {
+            "FrostSource": "SWI_FROST_API_KEY",
+            "FrostBoatSource": "SWI_FROST_API_KEY",
+            # "IWINFixedSource": "SWI_IWIN_FIXED_API_KEY"
         }
 
-        api_key = self._cached_credential.get(datasource)
-        if api_key:
-            logger.info(f"API key retrieved successfully for datasource: {datasource}")
-        else:
-            logger.info(f"No API key required for datasource: {datasource}.")
+        try:
+            # Retrieve the environment variable name based on the datasource
+            env_var_name = mapping.get(datasource, "")
 
-        return api_key
+            if env_var_name == "":
+                return ""
+
+            # Retrieve the value of the environment variable
+            api_key = os.getenv(env_var_name)
+
+            
+
+            # if api_key is None:
+            #     raise ValueError(f"Environment variable {env_var_name} is not set.")
+
+            self.logger.debug(f"{env_var_name} - {api_key}")
+            return api_key
+
+        except Exception as e:
+            # Handle any exceptions and print an error message
+            self.logger.warning(f"An error occurred: {e}")
+            return ""
+
+
     def _handle_error(self, error):
         """
         Log and handle errors that occur during configuration loading or data fetching.
