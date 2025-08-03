@@ -168,8 +168,12 @@ class CacheHandler:
             self.logger.warning("No online stations found. Skipping data caching.")
             return
 
+        real_time_data = {}
 
         for station in self.online_stations:
+
+            real_time_data[station] = {}
+
             try:
                 self.logger.debug(f"Fetching real-time data for station: {station}")
                 datasource = get_datasource(station,  config=self.config)
@@ -177,19 +181,26 @@ class CacheHandler:
                 data = datasource.fetch_realtime_data(station)
 
                 if not data:
-                    self.logger.warning(f"No data fetched for {station}, skipping cache write.")
+                    self.logger.warning(f"No data fetched for {station}.")
                     continue
 
-                filename = os.path.join(realtime_data_path, f"{station}.json")
+                real_time_data[station] = data
 
-                self._write_cache(data, filename)
+                # filename = os.path.join(realtime_data_path, f"{station}.json")
 
-                self.logger.info(f"Saved real-time data for {station} at {filename}.")
+                # self._write_cache(data, filename)
+
+                # self.logger.info(f"Saved real-time data for {station} at {filename}.")
+
 
             except Exception as e:
                 self.logger.error(f"Error processing real-time data for {station}: {e}", exc_info=True)
 
+
+        filename = os.path.join(realtime_data_path, f"all_stations_real_time.json")
+        self._write_cache(real_time_data, filename)
         self.logger.info("Finished caching real-time data.")
+        
 
     def cache_past_hourly_data(self, hours_ago=25):
         """
@@ -225,6 +236,8 @@ class CacheHandler:
         end_time = datetime.utcnow()
         start_time = end_time - timedelta(hours=hours_ago)
 
+        hourlydata = {-s : {} for s in range(1, hours_ago + 1)}
+
         for station in self.online_stations:
             try:
                 self.logger.debug(f"Fetching hourly data for station: {station}")
@@ -243,7 +256,7 @@ class CacheHandler:
                 # Create a subdirectory for each hourly shift
                 for shift in range(1, hours_ago + 1):
                     shift_time = end_time - timedelta(hours=shift)
-                    shift_path = os.path.join(hourly_data_path, f"-{shift}")
+                    # shift_path = os.path.join(hourly_data_path, f"-{shift}")
                     #os.makedirs(shift_path, exist_ok=True)
 
                     # Find the corresponding data entry for the shift
@@ -254,15 +267,22 @@ class CacheHandler:
                             "id": station,
                             "timeseries": [entry]
                         }
-                        filename = os.path.join(shift_path, f"{station}.json")
-                        self._write_cache(data_to_cache, filename)
-                        self.logger.info(f"Saved hourly data for {station} at {filename}.")
+                        # filename = os.path.join(shift_path, f"{station}.json")
+                        # self._write_cache(data_to_cache, filename)
+                        # self.logger.info(f"Saved hourly data for {station} at {filename}.")
+
+                        hourlydata[-shift][station] = data_to_cache
+
                     else:
+                        hourlydata[-shift][station] = {}
                         self.logger.warning(f"No data entry found for {station} at shift {shift}.")
 
             except Exception as e:
                 self.logger.error(f"Error processing hourly data for {station}: {e}", exc_info=True)
 
+        filename = os.path.join(hourly_data_path, f"pasthourlydata.json")
+        self._write_cache(data_to_cache, filename)
+        self.logger.info(f"Saved hourly data for {station} at {filename}.")
         self.logger.info("Finished caching hourly data.")
 
     def get_cached_online_stations(self, type="all", status='online'):
@@ -325,9 +345,14 @@ class CacheHandler:
         self.logger.info(f"Fetching real-time data for station ID: {station_id}")
         try:
             realtime_data_path = self.path_config.get('realtime_data', '/realtime_data/')
-            filename = os.path.join(realtime_data_path, f"{station_id}.json")
+            filename = os.path.join(realtime_data_path, f"all_stations_real_time.json")
+            
+            # filename = os.path.join(realtime_data_path, f"{station_id}.json")
 
-            cached_data = self._read_cache(filename)
+            cached_data_all = self._read_cache(filename)
+
+            cached_data = cached_data_all[station_id]
+
             if cached_data is None:
                 self.logger.warning(f"Cache file contains no valid data for station ID {station_id}")
             else:
@@ -369,12 +394,14 @@ class CacheHandler:
                 return self.get_cached_realtime_data(station_id)
 
             hourly_data_path = self.path_config.get('hourly_data', '/hourly_data/')
-            shift_path = os.path.join(hourly_data_path, f"{shift}")
-            filename = os.path.join(shift_path, f"{station_id}.json")
+            # shift_path = os.path.join(hourly_data_path, f"{shift}")
+            # filename = os.path.join(shift_path, f"{station_id}.json")
+            filename = os.path.join(hourly_data_path, f"pasthourlydata.json")
 
-            cached_data = self._read_cache(filename)
+            cached_data = self._read_cache(filename).get(station_id, {})
+            
             if cached_data is None:
-                self.logger.warning(f"Cache file contains no valid data for station ID {station_id} with shift {shift}")
+                self.logger.warning(f"Cache file contains no valid data")
             else:
                 self.logger.info(f"Successfully retrieved cached data for station ID {station_id} with shift {shift}")
 
