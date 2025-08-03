@@ -52,9 +52,9 @@ def test_get_datasource_frostsource(mock_logger, mock_config_handler):
     assert datasource.api_key == "frost_api_key", "API key should match the mock credential"
 
     # Check logger calls
-    mock_logger.info.assert_any_call("Fetching metadata for station_id: station_frost")
-    mock_logger.info.assert_any_call("Datasource identified for station_frost: FrostSource")
-    mock_logger.info.assert_any_call("Fetching API Key for: FrostSource")
+    mock_logger.debug.assert_any_call("Fetching metadata for station_id: station_frost")
+    mock_logger.debug.assert_any_call("Datasource identified for station_frost: FrostSource")
+    mock_logger.debug.assert_any_call("Fetching API Key for: FrostSource")
 
 
 def test_get_datasource_iwinfixedsource(mock_logger, mock_config_handler):
@@ -74,9 +74,9 @@ def test_get_datasource_iwinfixedsource(mock_logger, mock_config_handler):
     assert datasource.api_key == "iwin_api_key", "API key should match the mock credential"
 
     # Check logger calls
-    mock_logger.info.assert_any_call("Fetching metadata for station_id: station_iwin")
-    mock_logger.info.assert_any_call("Datasource identified for station_iwin: IWINFixedSource")
-    mock_logger.info.assert_any_call("Fetching API Key for: IWINFixedSource")
+    mock_logger.debug.assert_any_call("Fetching metadata for station_id: station_iwin")
+    mock_logger.debug.assert_any_call("Datasource identified for station_iwin: IWINFixedSource")
+    mock_logger.debug.assert_any_call("Fetching API Key for: IWINFixedSource")
 
 
 def test_get_datasource_unknown_datasource_fallback(mock_logger, mock_config_handler):
@@ -97,7 +97,7 @@ def test_get_datasource_unknown_datasource_fallback(mock_logger, mock_config_han
     assert datasource.api_key == "fallback_api_key", "Should use fallback API key"
 
     # Check logger calls for the warning and fallback notice
-    mock_logger.warning.assert_any_call(
+    mock_logger.info.assert_any_call(
         "Unknown datasource 'UnknownSource' for station_id station_unknown, defaulting to FrostSource."
     )
-    mock_logger.info.assert_any_call("Datasource identified for station_unknown: FrostSource")
+    mock_logger.debug.assert_any_call("Datasource identified for station_unknown: FrostSource")
