@@ -36,7 +36,7 @@ jobs:
           pip install pytest pytest-cov
 
       - name: Run tests without live tests
-        run: pytest --cov --cov-branch --cov-report=xml --maxfail=1 --exitfirst
+        run: pytest --cov --cov-branch --cov-report=xml --ignore-glob='*live*.py' --maxfail=1 --exitfirst
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
