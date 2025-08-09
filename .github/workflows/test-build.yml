@@ -1,0 +1,70 @@
+name: Test and build project container
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Run tests without live tests
+        run: pytest --cov --cov-branch --cov-report=xml --ignore-glob='*live*.py' --maxfail=1 --exitfirst
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  elevation-container-build:
+    runs-on: ubuntu-latest
+    if: contains(github.event.commits[0].modified, 'containers/elevation_api/') || contains(github.event.commits[0].added, 'containers/elevation_api/') || contains(github.event.commits[0].removed, 'containers/elevation_api/')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Extract version from file
+        id: version
+        run: |
+          VERSION=$(cat ./containers/elevation-api/version | head -n 1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version extracted: $VERSION"
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./containers/elevation-api
+          push: true
+          tags: |
+            lpauchet/swi-elevation-api:${{ steps.version.outputs.version }}
+            ${{ github.ref == 'refs/heads/main' && 'lpauchet/swi-elevation-api:latest' || '' }}
