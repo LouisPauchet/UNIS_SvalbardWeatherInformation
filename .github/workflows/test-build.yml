@@ -17,7 +17,6 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11", "3.12"]
-
     environment: APIKeysWeather
 
     steps:
@@ -46,6 +45,7 @@ jobs:
   elevation-container-build:
     runs-on: ubuntu-latest
     needs: backend-tests
+    if: github.event_name == 'push'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
