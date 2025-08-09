@@ -8,12 +8,15 @@ on:
     branches:
       - "**"
 
+env:
+  PRODUCTION_BRANCHES: '["refs/heads/main", "refs/heads/1.1_sandpiper", "refs/heads/1.0_polarfox"]'
+
 jobs:
   backend-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.11", "3.12"]
+        python-version: ["3.11", "3.12", "3.13"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,7 +42,7 @@ jobs:
 
   elevation-container-build:
     runs-on: ubuntu-latest
-    if: contains(github.event.commits[0].modified, 'containers/elevation_api/') || contains(github.event.commits[0].added, 'containers/elevation_api/') || contains(github.event.commits[0].removed, 'containers/elevation_api/')
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -68,3 +71,4 @@ jobs:
           tags: |
             lpauchet/swi-elevation-api:${{ steps.version.outputs.version }}
             ${{ github.ref == 'refs/heads/main' && 'lpauchet/swi-elevation-api:latest' || '' }}
+            ${{ !contains(fromJSON(env.PRODUCTION_BRANCHES), github.ref) && format('lpauchet/swi-elevation-api:{0}-dev', steps.version.outputs.version) || '' }}
