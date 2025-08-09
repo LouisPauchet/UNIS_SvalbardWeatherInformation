@@ -9,7 +9,8 @@ if [ ! -d "/code/data" ] || [ -z "$(ls -A /code/data)" ]; then
 
     # Update package list and install necessary packages
     apt-get update && \
-        apt-get install -y --no-install-recommends wget gdal-bin unzip
+        # apt-get install -y --no-install-recommends wget gdal-bin unzip
+        apt-get install -y --no-install-recommends wget unzip
 
     # Download, extract, reproject, and clean temporary files
     if wget -O /code/data/NP_DTM20.zip https://next.api.npolar.no/dataset/dce53a47-c726-4845-85c3-a65b46fe2fea/attachment/e3c4ca92-fde2-4abc-87e8-6a2d4a14863a/_blob; then
@@ -31,7 +32,8 @@ if [ ! -d "/code/data" ] || [ -z "$(ls -A /code/data)" ]; then
     fi
 
     # Cleanup
-    apt-get remove -y wget gdal-bin unzip && \
+    # apt-get remove -y wget gdal-bin unzip && \
+    apt-get remove -y wget unzip && \
         apt-get autoremove -y && \
         rm -rf /var/lib/apt/lists/*
 
