@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if /code/data directory exists
-if [ ! -d "/code/data" ]; then
+if [ ! -d "/code/data" ] || [ -z "$(ls -A /code/data)" ]; then
     echo "Directory /code/data does not exist. Installing package and downloading data..."
 
     # Create the directory
