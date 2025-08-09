@@ -59,20 +59,14 @@ jobs:
       - name: Extract version from file
         id: version
         run: |
-          VERSION=$(cat ./containers/elevation-api/version | head -n 1)
+          VERSION=$(cat ./containers/elevation_api/version | head -n 1)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version extracted: $VERSION"
-
-      - name: Debug Tags
-        run: |
-          echo "Version Tag: lpauchet/swi-elevation-api:${{ steps.version.outputs.version }}"
-          echo "Latest Tag: ${{ github.ref == 'refs/heads/main' && 'lpauchet/swi-elevation-api:latest' || '' }}"
-          echo "Dev Tag: ${{ !contains(fromJSON(env.PRODUCTION_BRANCHES), github.ref) && format('lpauchet/swi-elevation-api:{0}-dev', steps.version.outputs.version) || '' }}"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./containers/elevation-api
+          context: ./containers/elevation_api
           push: true
           tags: |
             lpauchet/swi-elevation-api:${{ steps.version.outputs.version }}
