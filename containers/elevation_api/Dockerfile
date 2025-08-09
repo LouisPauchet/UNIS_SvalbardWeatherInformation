@@ -4,7 +4,7 @@ FROM openelevation/open-elevation:latest
 WORKDIR /code
 
 # Copy the run script to the container
-COPY ./containers/elevation_api/run.sh /code/prep-and-run-server.sh
+COPY run.sh /code/prep-and-run-server.sh
 
 # Make the script executable
 RUN chmod +x /code/prep-and-run-server.sh
