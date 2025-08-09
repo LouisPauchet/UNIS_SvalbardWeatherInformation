@@ -74,6 +74,6 @@ jobs:
           context: ./containers/elevation_api
           push: true
           tags: |
-            lpauchet/swi-elevation-api:${{ steps.version.outputs.version }}
+            ${{ contains(fromJSON(env.PRODUCTION_BRANCHES), github.ref) && format('lpauchet/swi-elevation-api:{0}', steps.version.outputs.version) || '' }}
             ${{ github.ref == 'refs/heads/main' && 'lpauchet/swi-elevation-api:latest' || '' }}
             ${{ !contains(fromJSON(env.PRODUCTION_BRANCHES), github.ref) && format('lpauchet/swi-elevation-api:{0}-dev', steps.version.outputs.version) || '' }}
