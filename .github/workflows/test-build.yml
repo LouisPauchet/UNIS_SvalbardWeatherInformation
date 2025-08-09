@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.11", "3.12", "3.13"]
+        python-version: ["3.11", "3.12"]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -62,6 +62,12 @@ jobs:
           VERSION=$(cat ./containers/elevation-api/version | head -n 1)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version extracted: $VERSION"
+
+      - name: Debug Tags
+        run: |
+          echo "Version Tag: lpauchet/swi-elevation-api:${{ steps.version.outputs.version }}"
+          echo "Latest Tag: ${{ github.ref == 'refs/heads/main' && 'lpauchet/swi-elevation-api:latest' || '' }}"
+          echo "Dev Tag: ${{ !contains(fromJSON(env.PRODUCTION_BRANCHES), github.ref) && format('lpauchet/swi-elevation-api:{0}-dev', steps.version.outputs.version) || '' }}"
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
