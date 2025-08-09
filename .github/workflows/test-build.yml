@@ -43,6 +43,8 @@ jobs:
   elevation-container-build:
     runs-on: ubuntu-latest
 
+    needs: backend-tests
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
