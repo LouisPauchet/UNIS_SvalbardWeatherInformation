@@ -57,7 +57,7 @@ def get_datasource(station_id, config=None):
     # Get API credentials for this datasource
     api_key = config.get_api_credential(source_name)
 
-    logger.debug(f"Key to be passed : {api_key}")
+    # logger.debug(f"Key to be passed : {api_key}")
 
 
     return source_class(api_key=api_key)

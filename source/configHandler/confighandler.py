@@ -218,7 +218,7 @@ class ConfigHandler:
             # if api_key is None:
             #     raise ValueError(f"Environment variable {env_var_name} is not set.")
 
-            self.logger.debug(f"{env_var_name} - {api_key}")
+            # self.logger.debug(f"{env_var_name} - {api_key}")
             return api_key
 
         except Exception as e:
