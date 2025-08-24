@@ -7,6 +7,8 @@ from shapely.geometry import box
 import xml.etree.ElementTree as ET
 from datetime import datetime
 from loguru import logger
+import json
+from requests.auth import HTTPBasicAuth
 
 os.environ['SHAPE_RESTORE_SHX'] = 'YES'
 
@@ -97,13 +99,74 @@ def clip_land_area(icechart_shape_path, landcontour_shape_path, bbox_to_clip=(7.
         logger.error(f"An error occurred during clipping: {e}")
         raise
 
+
+def trigger_truncate_gwc(workspace="swi", layer="latest_sea_ice_chart"):
+    """
+    Truncate the GeoWebCache for a specified GeoServer layer.
+
+    Args:
+        workspace (str): GeoServer workspace name.
+        layer (str): GeoServer layer name.
+    """
+    geoserver_url = os.getenv("SWI-GEOSERVER-URL", "http://localhost:8080/geoserver")
+    username = os.getenv("SWI-GEOSERVER-USERNAME", "admin")
+    password = os.getenv("SWI-GEOSERVER-PWD", "geoserver")
+
+    url = f"{geoserver_url}/gwc/rest/seed/{workspace}:{layer}.json"
+    logger.debug(f"Constructed URL for GWC truncate: {url}")
+
+    payload = {
+        "seedRequest": {
+            "name": f"{workspace}:{layer}",
+            "type": "truncate",
+            "gridSetId": "EPSG:4326",
+            "zoomStart": 0,
+            "zoomStop": 20,
+            "threadCount": 1
+        }
+    }
+    logger.debug(f"Request payload: {json.dumps(payload, indent=2)}")
+
+    logger.info(f"Attempting to truncate GWC for layer: {workspace}:{layer}")
+    headers = {"Content-type": "application/json"}
+    auth = HTTPBasicAuth(username, password)
+
+    try:
+        logger.debug(f"Sending POST request to {url} with auth for user: {username}")
+        response = requests.post(
+            url,
+            data=json.dumps(payload),
+            headers=headers,
+            auth=auth
+        )
+
+        logger.info(f"Response status: {response.status_code}")
+        logger.debug(f"Response headers: {response.headers}")
+        logger.debug(f"Response text: {response.text}")
+
+        if response.status_code == 200:
+            logger.info("GWC truncate request successful.")
+        else:
+            logger.error(
+                f"GWC truncate request failed. "
+                f"Status: {response.status_code}, "
+                f"Reason: {response.reason}, "
+                f"Response: {response.text}"
+            )
+        return response
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Request failed with exception: {e}", exc_info=True)
+        raise
+    
+
 def main():
     try:
         os.makedirs(EXPORT_PATH, exist_ok=True)
         icechart_gdf = clip_land_area(get_latest_icechart(), get_land_contour())
-        output_path = os.path.join(EXPORT_PATH, 'latest.shp')
+        output_path = os.path.join(EXPORT_PATH, f"{os.getenv('SWI-SEAICE-LAYER-FILE-NAME','latest')}.shp")
         icechart_gdf.to_file(output_path, driver='ESRI Shapefile')
         logger.success(f"Clipped ice chart saved to {output_path}")
+        trigger_truncate_gwc()
         shutil.rmtree(PATH_ICECHART_DATA, ignore_errors=True)
     except Exception as e:
         logger.error(f"Failed to save clipped data: {e}")
